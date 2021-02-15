@@ -32,11 +32,11 @@ Install package
 
 ```shell script
 composer require grrr/nova-publish
-php artisan p
 ```
-```php
-# NovaServiceProvider.php
 
+Load the tool by adding it to `NovaServiceProvider.php`
+
+```php
 use Publish\Publish;
 
 ...
