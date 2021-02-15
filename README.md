@@ -53,3 +53,9 @@ use Publish\Publish;
 
 ...
 ```
+
+Publish configuration
+
+```shell
+php artisan vendor:publish --provider="Publish\ToolServiceProvider"
+```

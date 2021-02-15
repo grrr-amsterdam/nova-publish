@@ -8,7 +8,10 @@ class LastPublishRunController
 {
     public function __invoke()
     {
-        $runs = Http::withToken(config('publish.github_token'))
+        $runs = Http::withBasicAuth(
+            config('publish.github_username'),
+            config('publish.github_personal_access_token')
+        )
             ->withHeaders(['Accept' => 'application/vnd.github.v3+json'])
             ->get(
                 config('publish.workflow_path') . '/runs',
