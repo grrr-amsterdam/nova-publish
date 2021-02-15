@@ -10,9 +10,9 @@ class PublishController
 {
     public function __invoke()
     {
-        $appVersion = config('app.version');
-        if (!$appVersion) {
-            throw new Exception('app.version not set');
+        $ref = config('publish.git_ref');
+        if (!$ref) {
+            throw new Exception('publish.git_ref not set');
         }
 
         return Http::withBasicAuth(
@@ -23,7 +23,7 @@ class PublishController
             ->post(
                 config('publish.workflow_path') . '/dispatches',
                 [
-                    'ref' => $appVersion,
+                    'ref' => $ref,
                     'inputs' => ['environment' => App::environment()],
                 ]
             )

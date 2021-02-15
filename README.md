@@ -59,3 +59,5 @@ Publish configuration
 ```shell
 php artisan vendor:publish --provider="Publish\ToolServiceProvider"
 ```
+
+Configure your Github personal access token in `publish.php`, set the path to the Github API and configure an application version.
