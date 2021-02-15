@@ -1,5 +1,5 @@
 {
-  "name": "tiim/publish",
+  "name": "grrr-amsterdam/nova-publish",
   "description": "Adds website publish button to Nova.",
   "keywords": [
     "laravel",
@@ -11,13 +11,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Tiim\\Publish\\": "src/"
+      "Publish\\": "src/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Tiim\\Publish\\ToolServiceProvider"
+        "Nova\\Publish\\ToolServiceProvider"
       ]
     }
   },

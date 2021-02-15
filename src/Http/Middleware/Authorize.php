@@ -1,10 +1,9 @@
 <?php
 
-namespace Tiim\Publish\Http\Middleware;
+namespace Publish\Http\Middleware;
 
 use Laravel\Nova\Nova;
-use Tiim\Deploy\Deploy;
-use Tiim\Publish\Publish;
+use Publish\Publish;
 
 class Authorize
 {

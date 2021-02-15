@@ -1,6 +1,6 @@
 <?php
 
-namespace Tiim\Publish\Http\Controllers;
+namespace Publish\Http\Controllers;
 
 use Exception;
 use Illuminate\Support\Facades\App;
@@ -15,10 +15,7 @@ class PublishController
             throw new Exception('app.version not set');
         }
 
-        return Http::withBasicAuth(
-            config('publish.github_username'),
-            config('publish.github_personal_access_token')
-        )
+        return Http::withToken(config('publish.github_token'))
             ->withHeaders(['Accept' => 'application/vnd.github.v3+json'])
             ->post(
                 'https://api.github.com/repos/grrr-amsterdam/tiim/actions/workflows/publish.yml/dispatches',

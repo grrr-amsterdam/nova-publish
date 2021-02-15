@@ -1,6 +1,6 @@
 <?php
 
-namespace Tiim\Publish\Http\Controllers;
+namespace Publish\Http\Controllers;
 
 use Illuminate\Support\Facades\Http;
 

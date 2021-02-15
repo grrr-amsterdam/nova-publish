@@ -1,6 +1,6 @@
 <?php
 
-namespace Tiim\Publish;
+namespace Publish;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Tool;
