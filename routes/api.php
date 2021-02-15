@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Tiim\Publish\Http\Controllers\LastPublishRunController;
-use Tiim\Publish\Http\Controllers\PublishController;
+use Publish\Http\Controllers\LastPublishRunController;
+use Publish\Http\Controllers\PublishController;
 
 /*
 |--------------------------------------------------------------------------

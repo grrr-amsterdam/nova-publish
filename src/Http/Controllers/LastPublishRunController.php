@@ -11,7 +11,7 @@ class LastPublishRunController
         $runs = Http::withToken(config('publish.github_token'))
             ->withHeaders(['Accept' => 'application/vnd.github.v3+json'])
             ->get(
-                'https://api.github.com/repos/grrr-amsterdam/tiim/actions/workflows/publish.yml/runs',
+                config('publish.workflow_path') . '/runs',
                 [
                     'event' => 'workflow_dispatch',
                 ]

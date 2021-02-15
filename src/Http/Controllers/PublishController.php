@@ -15,10 +15,13 @@ class PublishController
             throw new Exception('app.version not set');
         }
 
-        return Http::withToken(config('publish.github_token'))
+        return Http::withBasicAuth(
+            config('publish.github_username'),
+            config('publish.github_personal_access_token')
+        )
             ->withHeaders(['Accept' => 'application/vnd.github.v3+json'])
             ->post(
-                'https://api.github.com/repos/grrr-amsterdam/tiim/actions/workflows/publish.yml/dispatches',
+                config('publish.workflow_path') . '/dispatches',
                 [
                     'ref' => $appVersion,
                     'inputs' => ['environment' => App::environment()],
