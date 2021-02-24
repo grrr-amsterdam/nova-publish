@@ -20,7 +20,7 @@
         </p>
 
         <p v-if="lastRun && lastRun.status === 'completed'">
-            Website voor het laatst om
+            Website voor het laatst op
             {{ formatDate(lastRun.updated_at) }} gepubliceerd.
             <span v-if="lastRun.conclusion === 'failure'">
                 Helaas is dit mis gegaan, neem contact op met GRRR.</span
@@ -28,7 +28,7 @@
         </p>
 
         <p v-if="lastRun && lastRun.status !== 'completed'">
-            Website publicatie gestart om {{ formatDate(lastRun.created_at) }},
+            Website publicatie gestart op {{ formatDate(lastRun.created_at) }},
             een paar minuten geduld.
         </p>
     </div>
@@ -36,6 +36,11 @@
 
 <script>
 export default {
+    metaInfo() {
+        return {
+            title: 'Publiceer'
+        };
+    },
     mounted() {
         this.updateStatus();
         this.startStatusRefresh();
@@ -73,7 +78,10 @@ export default {
             }, 10000);
         },
         formatDate(date) {
-            return moment(date).format("D MMMM YYYY [om] HH:mm");
+            return new Intl.DateTimeFormat(
+                'nl-NL',
+                { dateStyle: 'full', timeStyle: 'long' }
+            ).format(new Date(date));
         },
     },
 };
@@ -82,3 +90,4 @@ export default {
 <style>
 /* Scoped Styles */
 </style>
+
