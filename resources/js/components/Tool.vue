@@ -23,8 +23,7 @@
             Website voor het laatst op
             {{ formatDate(lastRun.updated_at) }} gepubliceerd.
             <span v-if="lastRun.conclusion === 'failure'">
-                Helaas is dit mis gegaan, neem contact op met GRRR.</span
-            >
+                Helaas is dit mis gegaan, neem contact op met GRRR.</span>
         </p>
 
         <p v-if="lastRun && lastRun.status !== 'completed'">
