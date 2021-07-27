@@ -24,7 +24,7 @@ class PublishController
                 config('publish.workflow_path') . '/dispatches',
                 [
                     'ref' => $ref,
-                    'inputs' => ['environment' => App::environment()],
+                    'inputs' => config('publish.workflow_inputs') ?: new \stdClass(),
                 ]
             )
             ->throw()
