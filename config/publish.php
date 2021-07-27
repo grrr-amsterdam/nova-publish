@@ -32,6 +32,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Workflow inputs
+    |--------------------------------------------------------------------------
+    |
+    | Inputs for the workflow. The inputs must be defined in the workflow file:
+    | https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#onworkflow_dispatchinputs
+    |
+    | An example:
+    | ['environment' => env('APP_ENV')]
+    |
+    */
+    'workflow_inputs' => [],
+
+    /*
+    |--------------------------------------------------------------------------
     | Git ref to publish
     |--------------------------------------------------------------------------
     |
