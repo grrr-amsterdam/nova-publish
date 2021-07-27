@@ -23,6 +23,7 @@ class LastPublishRunController
             ->json('workflow_runs');
 
         return collect($runs)
+            ->where('conclusion', '!=', 'cancelled')
             ->sortByDesc('created_at')
             ->first();
     }
