@@ -16,10 +16,12 @@ class PublishManager
         )->withHeaders(['Accept' => 'application/vnd.github.v3+json']);
     }
 
-    public function getLastRun()
+    public function getLastRun(): Run
     {
+        $workflowPath = config('publish.workflow_path');
+
         $runs = $this->github
-            ->get(config('publish.workflow_path') . '/runs', [
+            ->get("$workflowPath/runs", [
                 'event' => 'workflow_dispatch',
             ])
             ->throw()
@@ -28,6 +30,9 @@ class PublishManager
         return collect($runs)
             ->where('conclusion', '!=', 'cancelled')
             ->sortByDesc('created_at')
+            ->whenEmpty(function () use ($workflowPath) {
+                throw Exception::noFirstRun($workflowPath);
+            })
             ->map(fn($response) => Run::createFromGithubResponse($response))
             ->first();
     }
