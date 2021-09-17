@@ -21,8 +21,8 @@
 
 [Return To Top](#nova-publish)
 
-- PHP 7.1
-- Github workflow
+- PHP 7.4
+- Github Actions workflow
 
 ## Installation
 
@@ -61,3 +61,7 @@ php artisan vendor:publish --provider="Publish\ToolServiceProvider"
 ```
 
 Configure your Github personal access token in `publish.php`, set the path to the Github API and configure an application version.
+
+## Contribute
+
+You need a Nova license to run the tests.
