@@ -6,7 +6,6 @@ use Illuminate\Contracts\Support\Arrayable;
 
 class Run implements Arrayable
 {
-
     public ?string $conclusion;
 
     public string $created_at;
@@ -15,7 +14,8 @@ class Run implements Arrayable
 
     public string $updated_at;
 
-    public static function createFromGithubResponse(array $data) {
+    public static function createFromGithubResponse(array $data)
+    {
         $run = new self();
         $run->conclusion = $data['conclusion'];
         $run->created_at = $data['created_at'];

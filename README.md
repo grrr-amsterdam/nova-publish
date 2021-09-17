@@ -13,16 +13,16 @@
 
 ## Table of Contents
 
--   [Table of Contents](#table-of-contents)
--   [Requirements](#requirements)
--   [Installation](#installation)
+- [Table of Contents](#table-of-contents)
+- [Requirements](#requirements)
+- [Installation](#installation)
 
 ## Requirements
 
 [Return To Top](#nova-publish)
 
--   PHP 7.1
--   Github workflow
+- PHP 7.1
+- Github workflow
 
 ## Installation
 

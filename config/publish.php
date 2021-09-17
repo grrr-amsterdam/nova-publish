@@ -28,7 +28,7 @@ return [
     | https://api.github.com/repos/grrr-amsterdam/nova-publish/actions/workflows/my-workflow_dispatch-workflow.yml
     |
     */
-    'workflow_path'=> 'https://api.github.com/path/to/workflow.yml',
+    'workflow_path' => 'https://api.github.com/path/to/workflow.yml',
 
     /*
     |--------------------------------------------------------------------------
