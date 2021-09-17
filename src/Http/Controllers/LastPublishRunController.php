@@ -2,29 +2,12 @@
 
 namespace Publish\Http\Controllers;
 
-use Illuminate\Support\Facades\Http;
+use Publish\PublishManager;
 
 class LastPublishRunController
 {
-    public function __invoke()
+    public function __invoke(PublishManager $manager)
     {
-        $runs = Http::withBasicAuth(
-            config('publish.github_username'),
-            config('publish.github_personal_access_token')
-        )
-            ->withHeaders(['Accept' => 'application/vnd.github.v3+json'])
-            ->get(
-                config('publish.workflow_path') . '/runs',
-                [
-                    'event' => 'workflow_dispatch',
-                ]
-            )
-            ->throw()
-            ->json('workflow_runs');
-
-        return collect($runs)
-            ->where('conclusion', '!=', 'cancelled')
-            ->sortByDesc('created_at')
-            ->first();
+        return $manager->getLastRun();
     }
 }
