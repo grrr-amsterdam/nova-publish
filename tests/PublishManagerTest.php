@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 use Publish\Exception;
 use Publish\PublishManager;
 
-class TestPublishManager extends TestCase
+class PublishManagerTest extends TestCase
 {
     public function testLastRunThrowsException(): void
     {
