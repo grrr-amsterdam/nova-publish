@@ -1,0 +1,7 @@
+# Dependencies
+composer.lock
+/node_modules
+/vendor
+
+# Generated files
+/dist
