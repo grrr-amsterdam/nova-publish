@@ -55,6 +55,6 @@ class ToolServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(PublishManager::class, PublishManager::class);
     }
 }
