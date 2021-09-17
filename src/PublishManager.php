@@ -30,6 +30,7 @@ class PublishManager {
         return collect($runs)
             ->where('conclusion', '!=', 'cancelled')
             ->sortByDesc('created_at')
+            ->map(fn($response) => Run::createFromGithubResponse($response))
             ->first();
     }
 
