@@ -45,19 +45,24 @@ export default {
     this.startStatusRefresh();
   },
   props: {
-    publishing: false,
-    lastRun: null,
-    error: null,
+    publishing: {
+      type: Boolean,
+      default: true
+    },
+    lastRun: Object,
+    error: String,
   },
   methods: {
     publish() {
+      this.publishing = true;
       axios
         .post("/nova-vendor/publish/publish")
         .then((response) => {
-          this.publishing = true;
+          this.error = '';
         })
         .catch((error) => {
           this.error = error.response.data.message;
+          this.publishing = false;
         });
     },
     updateStatus() {
@@ -66,6 +71,7 @@ export default {
         .then((lastRun) => {
           this.lastRun = lastRun.data;
           this.publishing = lastRun.data.status !== "completed";
+          this.error = '';
         })
         .catch((error) => {
           this.error = error.response.data.message;
