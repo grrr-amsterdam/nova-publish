@@ -7,6 +7,7 @@ use Publish\ToolServiceProvider;
 class TestCase extends \Orchestra\Testbench\TestCase
 {
     protected $loadEnvironmentVariables = true;
+
     protected function defineEnvironment($app)
     {
         $app['config']->set('publish.github_username', 'username');
