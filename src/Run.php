@@ -6,6 +6,15 @@ use Illuminate\Contracts\Support\Arrayable;
 
 class Run implements Arrayable
 {
+    const CONCLUSION_SUCCESS = 'success';
+    const CONCLUSION_FAILURE = 'failure';
+    const CONCLUSION_CANCELLED = 'cancelled';
+    const CONCLUSION_SKIPPED = 'skipped';
+
+    const STATUS_COMPLETED = 'completed';
+    const STATUS_QUEUED = 'queued';
+    const STATUS_IN_PROGRESS = 'in_progress';
+
     public ?string $conclusion;
 
     public string $created_at;
@@ -14,7 +23,7 @@ class Run implements Arrayable
 
     public string $updated_at;
 
-    public static function createFromGithubResponse(array $data)
+    public static function createFromGithubResponse(array $data): Run
     {
         $run = new self();
         $run->conclusion = $data['conclusion'];

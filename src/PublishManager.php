@@ -2,6 +2,7 @@
 
 namespace Publish;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 class PublishManager
@@ -16,7 +17,7 @@ class PublishManager
         )->withHeaders(['Accept' => 'application/vnd.github.v3+json']);
     }
 
-    public function getLastRun(): Run
+    public function getRuns(): Collection
     {
         $workflowPath = config('publish.workflow_path');
 
@@ -28,18 +29,30 @@ class PublishManager
             ->json('workflow_runs');
 
         return collect($runs)
-            ->where('conclusion', '!=', 'cancelled')
             ->sortByDesc('created_at')
             ->whenEmpty(function () use ($workflowPath) {
                 throw Exception::noFirstRun($workflowPath);
             })
-            ->map(fn($response) => Run::createFromGithubResponse($response))
+            ->map(fn($response) => Run::createFromGithubResponse($response));
+    }
+
+    public function getLastRun(): Run
+    {
+        return $this->getRuns()
+            ->where('conclusion', '!=', Run::CONCLUSION_CANCELLED)
             ->first();
     }
 
-    public function publish(string $ref)
+    public function publish(string $ref): void
     {
-        return $this->github
+        /** @var Run $run */
+        $run = $this->getRuns()->first();
+
+        if ($run->status !== Run::STATUS_COMPLETED) {
+            return;
+        }
+
+        $this->github
             ->post(config('publish.workflow_path') . '/dispatches', [
                 'ref' => $ref,
                 'inputs' =>

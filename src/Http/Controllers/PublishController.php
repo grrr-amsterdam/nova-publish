@@ -16,6 +16,6 @@ class PublishController
             throw new Exception('publish.git_ref not set');
         }
 
-        return $manager->publish($ref);
+        $manager->publish($ref);
     }
 }
