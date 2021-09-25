@@ -47,7 +47,7 @@ export default {
   props: {
     publishing: {
       type: Boolean,
-      default: true
+      default: true,
     },
     lastRun: Object,
     error: String,
@@ -58,7 +58,7 @@ export default {
       axios
         .post("/nova-vendor/publish/publish")
         .then((response) => {
-          this.error = '';
+          this.error = "";
         })
         .catch((error) => {
           this.error = error.response.data.message;
@@ -71,7 +71,7 @@ export default {
         .then((lastRun) => {
           this.lastRun = lastRun.data;
           this.publishing = lastRun.data.status !== "completed";
-          this.error = '';
+          this.error = "";
         })
         .catch((error) => {
           this.error = error.response.data.message;
