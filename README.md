@@ -7,15 +7,18 @@
 
 <!-- Shields -->
 
+[![Run tests](https://github.com/grrr-amsterdam/nova-publish/actions/workflows/run-tests.yaml/badge.svg)](https://github.com/grrr-amsterdam/nova-publish/actions/workflows/run-tests.yaml) [![Code style](https://github.com/grrr-amsterdam/nova-publish/actions/workflows/code-style.yaml/badge.svg)](https://github.com/grrr-amsterdam/nova-publish/actions/workflows/code-style.yaml)
+
 <!-- Description -->
 
 > Adds a publish button to Nova to trigger a Github workflow which runs you static site generator
 
-## Table of Contents
+### Developed with ❤️ by [GRRR](https://grrr.nl)
 
-- [Table of Contents](#table-of-contents)
-- [Requirements](#requirements)
-- [Installation](#installation)
+- GRRR is a [B Corp](https://grrr.nl/en/b-corp/)
+- GRRR has a [tech blog](https://grrr.tech/)
+- GRRR is [hiring](https://grrr.nl/en/jobs/)
+- [@GRRRTech](https://twitter.com/grrrtech) tweets
 
 ## Requirements
 
