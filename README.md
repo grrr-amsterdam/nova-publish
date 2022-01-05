@@ -63,7 +63,21 @@ Publish configuration
 php artisan vendor:publish --provider="Publish\ToolServiceProvider"
 ```
 
-Configure your Github personal access token in `publish.php`, set the path to the Github API and configure an application version.
+Configure GitHub credentials, set the path to the workflow file and configure an application version.
+
+## GitHub API credentials
+
+Personal Access Tokens (PATs) are currently the only way to access the GitHub API. The token is created by a GitHub user. So when this user is removed from the GitHub organization the token must be recreated by another user. Not ideal, so there is room for improvement.
+
+Create a Personal Access Token: https://github.com/settings/tokens
+
+- Note: the name of the project
+- Expiration: No expiration (or you have to replace the token every time it expires)
+- Scopes: "repo" and "workflow"
+
+Add the created token as environment variable `PUBLISH_GITHUB_PERSONAL_ACCESS_TOKEN`.
+
+You GitHub username must be stored in `PUBLISH_GITHUB_USERNAME`.
 
 ## Contribute
 
