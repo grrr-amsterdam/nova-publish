@@ -22,9 +22,7 @@ class PublishManager
         $workflowPath = config('publish.workflow_path');
 
         $runs = $this->github
-            ->get("$workflowPath/runs", [
-                'event' => 'workflow_dispatch',
-            ])
+            ->get("$workflowPath/runs")
             ->throw()
             ->json('workflow_runs');
 
