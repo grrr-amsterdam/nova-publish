@@ -3,10 +3,10 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | Github credentials
+    | GitHub credentials
     |--------------------------------------------------------------------------
     |
-    | Publish uses these credentials to connect to the Github API. The token
+    | Publish uses these credentials to connect to the GitHub API. The token
     | needs the "repo" and "workflow" scope.
     |
     */
@@ -18,10 +18,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Github workflow path
+    | GitHub workflow path
     |--------------------------------------------------------------------------
     |
-    | The endpoint of the workflow used by the Github API calls. For example:
+    | The endpoint of the workflow used by the GitHub API calls. For example:
     | https://api.github.com/repos/vendor/project/actions/workflows/some-workflow.yml
     |
     | Replace "vendor", "project" and "some-workflow":
