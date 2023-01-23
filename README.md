@@ -11,7 +11,7 @@
 
 <!-- Description -->
 
-> Adds a publish button to Nova to trigger a Github workflow which runs you static site generator
+> Adds a publish button to Nova to trigger a GitHub workflow which runs you static site generator
 
 ### Developed with ❤️ by [GRRR](https://grrr.nl)
 
@@ -25,16 +25,27 @@
 [Return To Top](#nova-publish)
 
 - PHP 7.4
-- Github Actions workflow
+- GitHub Actions workflow
 
 ## Installation
 
 [Return To Top](#nova-publish)
 
-Install package
+Add the repository to `composer.json`
+
+```JSON
+"repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/grrr-amsterdam/nova-publish"
+    }
+]
+```
+
+Add install the package
 
 ```shell script
-composer require grrr/nova-publish
+composer require grrr-amsterdam/nova-publish
 ```
 
 Load the tool by adding it to `NovaServiceProvider.php`
@@ -42,19 +53,10 @@ Load the tool by adding it to `NovaServiceProvider.php`
 ```php
 use Publish\Publish;
 
-...
-
-    /**
-     * Get the tools that should be listed in the Nova sidebar.
-     *
-     * @return array<Tool>
-     */
-    public function tools()
-    {
-        return [new Publish()];
-    }
-
-...
+public function tools()
+{
+    return [new Publish()];
+}
 ```
 
 Publish configuration
