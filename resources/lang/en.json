@@ -1,0 +1,11 @@
+{
+  "button_text": "Publish website",
+  "completed_message": "Website published on :last_run.",
+  "explanation": "Publish the website to make change available for the public.",
+  "error": "Something went wrong, please contact GRRR. The error message is: \":error\"",
+  "error_short": "Something went wrong, please contact GRRR.",
+  "heading": "Publish website",
+  "publish": "Publish",
+  "running_message": "Website publish started on :last_run, please wait a few minutes.",
+  "title": "Publish a new website"
+}

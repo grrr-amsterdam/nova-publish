@@ -19,13 +19,30 @@ class ToolServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__ . "/../resources/views", "publish");
 
+        $this->loadTranslationsFrom(__DIR__ . "/../resources/lang", "publish");
+        $this->loadJsonTranslationsFrom(resource_path("lang/vendor/publish"));
+
         $this->app->booted(function () {
             $this->routes();
         });
 
         $this->publishes([
             __DIR__ . "/../config/publish.php" => config_path("publish.php"),
+            __DIR__ . "/../resources/lang" => $this->app->langPath(
+                "vendor/publish"
+            ),
         ]);
+
+        Nova::serving(function () {
+            Nova::translations(
+                resource_path(
+                    "lang/vendor/nova/" . app()->getLocale() . ".json"
+                )
+            );
+            Nova::translations(
+                __DIR__ . "/../resources/lang/" . app()->getLocale() . ".json"
+            );
+        });
     }
 
     /**

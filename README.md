@@ -67,6 +67,10 @@ php artisan vendor:publish --provider="Publish\ToolServiceProvider"
 
 Configure GitHub credentials, set the path to the workflow file and configure an application version.
 
+## i18n
+
+To add a language or change an existing translation, please read the [Laravel documentation about overriding package language files](https://laravel.com/docs/10.x/localization#overriding-package-language-files).
+
 ## GitHub API credentials
 
 Personal Access Tokens (PATs) are currently the only way to access the GitHub API. The token is created by a GitHub user. So when this user is removed from the GitHub organization the token must be recreated by another user. Not ideal, so there is room for improvement.
