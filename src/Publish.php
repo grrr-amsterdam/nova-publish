@@ -2,6 +2,8 @@
 
 namespace Publish;
 
+use Illuminate\Http\Request;
+use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Tool;
 
@@ -18,13 +20,10 @@ class Publish extends Tool
         Nova::style('publish', __DIR__ . '/../dist/css/tool.css');
     }
 
-    /**
-     * Build the view that renders the navigation links for the tool.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function renderNavigation()
+    public function menu(Request $request)
     {
-        return view('publish::navigation');
+        return MenuSection::make("Publish")
+            ->path("/publish")
+            ->icon("cloud-upload");
     }
 }

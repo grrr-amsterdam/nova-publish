@@ -4,7 +4,7 @@ namespace Publish;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Nova\Events\ServingNova;
+use Laravel\Nova\Http\Middleware\Authenticate;
 use Laravel\Nova\Nova;
 use Publish\Http\Middleware\Authorize;
 
@@ -39,7 +39,12 @@ class ToolServiceProvider extends ServiceProvider
             return;
         }
 
-        Route::middleware(['nova', Authorize::class])
+        Nova::router(
+            ["nova", Authenticate::class, Authorize::class],
+            "publish"
+        )->group(__DIR__ . "/../routes/inertia.php");
+
+        Route::middleware(['nova', ])
             ->prefix('nova-vendor/publish')
             ->group(__DIR__ . '/../routes/api.php');
     }
