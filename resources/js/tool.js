@@ -1,9 +1,5 @@
-Nova.booting((Vue, router, store) => {
-  router.addRoutes([
-    {
-      name: "publish",
-      path: "/publish",
-      component: require("./components/Tool"),
-    },
-  ]);
+import Tool from "./components/Tool";
+
+Nova.booting((Vue) => {
+  Nova.inertia("PublishTool", Tool);
 });

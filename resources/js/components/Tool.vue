@@ -1,16 +1,17 @@
 <template>
+  <Head title="Publiceer een nieuwe website" />
   <div>
     <heading class="mb-6">Publiceren</heading>
 
     <p class="mb-6">Publiceer de website om wijzigingen publiek te maken.</p>
 
-    <button
-      v-on:click="publish"
+    <default-button
+      @click="publish"
       :disabled="!!publishing"
-      class="btn btn-default btn-primary mb-6"
+      class="mb-6"
     >
       Publiceer website
-    </button>
+    </default-button>
 
     <p v-if="error" class="error text-error-message mb-6">
       Er is iets mis gegaan, neem contact op met GRRR. De foutmelding is: "{{
@@ -18,7 +19,7 @@
       }}"
     </p>
 
-    <p v-if="lastRun && lastRun.status === 'completed'">
+    <p v-if="lastRun && lastRun.status === 'completed'" class="mb-6">
       Website voor het laatst op
       {{ formatDate(lastRun.updated_at) }} gepubliceerd.
       <span v-if="lastRun.conclusion === 'failure'">
@@ -35,11 +36,6 @@
 
 <script>
 export default {
-  metaInfo() {
-    return {
-      title: "Publiceer",
-    };
-  },
   mounted() {
     this.updateStatus();
     this.startStatusRefresh();
@@ -52,29 +48,37 @@ export default {
     lastRun: Object,
     error: String,
   },
+  data() {
+    return {
+        error: "",
+        publishing: false,
+        lastRun: undefined
+    };
+  },
   methods: {
     publish() {
       this.publishing = true;
-      axios
+      Nova.request()
         .post("/nova-vendor/publish/publish")
         .then((response) => {
           this.error = "";
         })
         .catch((error) => {
-          this.error = error.response.data.message;
+          this.error = error.message;
           this.publishing = false;
         });
     },
     updateStatus() {
-      axios
+      Nova.request()
         .get("/nova-vendor/publish/last-publish-run")
         .then((lastRun) => {
+          console.log(lastRun.data)
           this.lastRun = lastRun.data;
           this.publishing = lastRun.data.status !== "completed";
           this.error = "";
         })
         .catch((error) => {
-          this.error = error.response.data.message;
+          this.error = error.message;
         });
     },
     startStatusRefresh() {
