@@ -1,7 +1,5 @@
-# Dependencies
-composer.lock
-/node_modules
-/vendor
-
-# Generated files
+.vscode
 /dist
+
+composer.lock
+vendor

@@ -13,7 +13,7 @@ class PublishManagerTest extends TestCase
     {
         $this->expectException(Exception::class);
         Http::fake([
-            'github.com/*' => Http::response(['workflow_runs' => []]),
+            "github.com/*" => Http::response(["workflow_runs" => []]),
         ]);
 
         $manager = new PublishManager();
@@ -25,22 +25,22 @@ class PublishManagerTest extends TestCase
         Carbon::setTestNow(now());
 
         Http::fake([
-            'github.com/*' => Http::response(
+            "github.com/*" => Http::response(
                 [
-                    'workflow_runs' => [
+                    "workflow_runs" => [
                         [
-                            'conclusion' => null,
-                            'created_at' => now()->format(DATE_ATOM),
-                            'updated_at' => '123',
-                            'status' => 'asdf',
+                            "conclusion" => null,
+                            "created_at" => now()->format(DATE_ATOM),
+                            "updated_at" => "123",
+                            "status" => "asdf",
                         ],
                         [
-                            'conclusion' => null,
-                            'created_at' => now()
+                            "conclusion" => null,
+                            "created_at" => now()
                                 ->subMinute()
                                 ->format(DATE_ATOM),
-                            'updated_at' => '123',
-                            'status' => 'asdf',
+                            "updated_at" => "123",
+                            "status" => "asdf",
                         ],
                     ],
                 ],

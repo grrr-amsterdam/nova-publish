@@ -15,6 +15,6 @@ use Publish\Http\Controllers\PublishController;
 |
 */
 
-Route::post('/publish', PublishController::class);
+Route::post("/publish", PublishController::class);
 
-Route::get('/last-publish-run', LastPublishRunController::class);
+Route::get("/last-publish-run", LastPublishRunController::class);

@@ -10,14 +10,14 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function defineEnvironment($app)
     {
-        $app['config']->set('publish.github_username', 'username');
-        $app['config']->set(
-            'publish.github_personal_access_token',
-            'access_token'
+        $app["config"]->set("publish.github_username", "username");
+        $app["config"]->set(
+            "publish.github_personal_access_token",
+            "access_token"
         );
-        $app['config']->set(
-            'publish.workflow_path',
-            'https://api.github.com/repos/grrr-amsterdam/nova-publish/actions/workflows/some-workflow.yml'
+        $app["config"]->set(
+            "publish.workflow_path",
+            "https://api.github.com/repos/grrr-amsterdam/nova-publish/actions/workflows/some-workflow.yml"
         );
     }
 

@@ -5,11 +5,7 @@
 
     <p class="mb-6">Publiceer de website om wijzigingen publiek te maken.</p>
 
-    <default-button
-      @click="publish"
-      :disabled="!!publishing"
-      class="mb-6"
-    >
+    <default-button @click="publish" :disabled="!!publishing" class="mb-6">
       Publiceer website
     </default-button>
 
@@ -50,9 +46,9 @@ export default {
   },
   data() {
     return {
-        error: "",
-        publishing: false,
-        lastRun: undefined
+      error: "",
+      publishing: false,
+      lastRun: undefined,
     };
   },
   methods: {
@@ -72,7 +68,7 @@ export default {
       Nova.request()
         .get("/nova-vendor/publish/last-publish-run")
         .then((lastRun) => {
-          console.log(lastRun.data)
+          console.log(lastRun.data);
           this.lastRun = lastRun.data;
           this.publishing = lastRun.data.status !== "completed";
           this.error = "";

@@ -12,22 +12,22 @@ class PublishManager
     public function __construct()
     {
         $this->github = Http::withBasicAuth(
-            config('publish.github_username'),
-            config('publish.github_personal_access_token')
-        )->withHeaders(['Accept' => 'application/vnd.github.v3+json']);
+            config("publish.github_username"),
+            config("publish.github_personal_access_token")
+        )->withHeaders(["Accept" => "application/vnd.github.v3+json"]);
     }
 
     public function getRuns(): Collection
     {
-        $workflowPath = config('publish.workflow_path');
+        $workflowPath = config("publish.workflow_path");
 
         $runs = $this->github
             ->get("$workflowPath/runs")
             ->throw()
-            ->json('workflow_runs');
+            ->json("workflow_runs");
 
         return collect($runs)
-            ->sortByDesc('created_at')
+            ->sortByDesc("created_at")
             ->whenEmpty(function () use ($workflowPath) {
                 throw Exception::noFirstRun($workflowPath);
             })
@@ -37,7 +37,7 @@ class PublishManager
     public function getLastRun(): Run
     {
         return $this->getRuns()
-            ->where('conclusion', '!=', Run::CONCLUSION_CANCELLED)
+            ->where("conclusion", "!=", Run::CONCLUSION_CANCELLED)
             ->first();
     }
 
@@ -51,10 +51,10 @@ class PublishManager
         }
 
         $this->github
-            ->post(config('publish.workflow_path') . '/dispatches', [
-                'ref' => $ref,
-                'inputs' =>
-                    config('publish.workflow_inputs') ?: new \stdClass(),
+            ->post(config("publish.workflow_path") . "/dispatches", [
+                "ref" => $ref,
+                "inputs" =>
+                    config("publish.workflow_inputs") ?: new \stdClass(),
             ])
             ->throw()
             ->json();
