@@ -11,9 +11,9 @@ return [
     |
     */
 
-    'github_username' => env('PUBLISH_GITHUB_USERNAME'),
-    'github_personal_access_token' => env(
-        'PUBLISH_GITHUB_PERSONAL_ACCESS_TOKEN'
+    "github_username" => env("PUBLISH_GITHUB_USERNAME"),
+    "github_personal_access_token" => env(
+        "PUBLISH_GITHUB_PERSONAL_ACCESS_TOKEN"
     ),
 
     /*
@@ -28,7 +28,7 @@ return [
     | https://api.github.com/repos/grrr-amsterdam/nova-publish/actions/workflows/my-workflow_dispatch-workflow.yml
     |
     */
-    'workflow_path' => 'https://api.github.com/path/to/workflow.yml',
+    "workflow_path" => "https://api.github.com/path/to/workflow.yml",
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     | ['environment' => env('APP_ENV')]
     |
     */
-    'workflow_inputs' => [],
+    "workflow_inputs" => [],
 
     /*
     |--------------------------------------------------------------------------
@@ -53,5 +53,5 @@ return [
     | value but a env var set by your CI pipeline.
     |
     */
-    'git_ref' => env('PUBLISH_GIT_REF'),
+    "git_ref" => env("PUBLISH_GIT_REF"),
 ];

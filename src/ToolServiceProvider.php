@@ -17,14 +17,14 @@ class ToolServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'publish');
+        $this->loadViewsFrom(__DIR__ . "/../resources/views", "publish");
 
         $this->app->booted(function () {
             $this->routes();
         });
 
         $this->publishes([
-            __DIR__ . '/../config/publish.php' => config_path('publish.php'),
+            __DIR__ . "/../config/publish.php" => config_path("publish.php"),
         ]);
     }
 
@@ -44,9 +44,9 @@ class ToolServiceProvider extends ServiceProvider
             "publish"
         )->group(__DIR__ . "/../routes/inertia.php");
 
-        Route::middleware(['nova', ])
-            ->prefix('nova-vendor/publish')
-            ->group(__DIR__ . '/../routes/api.php');
+        Route::middleware(["nova"])
+            ->prefix("nova-vendor/publish")
+            ->group(__DIR__ . "/../routes/api.php");
     }
 
     /**

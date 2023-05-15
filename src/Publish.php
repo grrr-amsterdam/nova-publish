@@ -16,8 +16,8 @@ class Publish extends Tool
      */
     public function boot()
     {
-        Nova::script('publish', __DIR__ . '/../dist/js/tool.js');
-        Nova::style('publish', __DIR__ . '/../dist/css/tool.css');
+        Nova::script("publish", __DIR__ . "/../dist/js/tool.js");
+        Nova::style("publish", __DIR__ . "/../dist/css/tool.css");
     }
 
     public function menu(Request $request)
