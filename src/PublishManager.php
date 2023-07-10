@@ -4,6 +4,7 @@ namespace Publish;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Publish\Events\PublicationWasStarted;
 
 class PublishManager
 {
@@ -49,6 +50,8 @@ class PublishManager
         if ($run->status !== Run::STATUS_COMPLETED) {
             return;
         }
+
+        event(new PublicationWasStarted($ref));
 
         $this->github
             ->post(config("publish.workflow_path") . "/dispatches", [

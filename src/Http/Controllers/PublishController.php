@@ -3,8 +3,6 @@
 namespace Publish\Http\Controllers;
 
 use Exception;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Http;
 use Publish\PublishManager;
 
 class PublishController
