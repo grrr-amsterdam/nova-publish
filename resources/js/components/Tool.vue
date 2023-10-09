@@ -1,6 +1,6 @@
 <template>
-  <Head title="Publiceer een nieuwe website" />
   <div>
+    <Head title="Publiceer een nieuwe website" />
     <heading class="mb-6">Publiceren</heading>
 
     <p class="mb-6">Publiceer de website om wijzigingen publiek te maken.</p>
