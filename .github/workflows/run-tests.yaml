@@ -2,22 +2,29 @@ name: Run tests
 
 on:
   push:
-  pull_request:
 
 jobs:
   php-tests:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest]
-        php: [8.0]
-        laravel: [8.*]
+        laravel: [8.*, 9.*, 10.*]
+        php: [8.0, 8.1, 8.2]
         dependency-version: [prefer-stable]
         include:
           - laravel: 8.*
             testbench: 6.*
-    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
+          - laravel: 9.*
+            testbench: 7.*
+          - laravel: 10.*
+            testbench: 8.*
+        exclude:
+          - laravel: 8.*
+            php: 8.2
+          - laravel: 10.*
+            php: 8.0
+    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
 
     steps:
       - uses: actions/checkout@v4
