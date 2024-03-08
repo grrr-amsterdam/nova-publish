@@ -1,33 +1,27 @@
 <template>
-  <div>
-    <Head title="Publiceer een nieuwe website" />
-    <heading class="mb-6">Publiceren</heading>
+  <Head :title="__('title')" />
+  <heading class="mb-6">{{ __("heading") }}</heading>
 
-    <p class="mb-6">Publiceer de website om wijzigingen publiek te maken.</p>
+  <p class="mb-6">{{ __("explanation") }}</p>
 
-    <default-button @click="publish" :disabled="!!publishing" class="mb-6">
-      Publiceer website
-    </default-button>
+  <default-button @click="publish" :disabled="!!publishing" class="mb-6">
+    {{ __("button_text") }}
+  </default-button>
 
-    <p v-if="error" class="error text-error-message mb-6">
-      Er is iets mis gegaan, neem contact op met GRRR. De foutmelding is: "{{
-        error
-      }}"
-    </p>
+  <p v-if="error" class="error text-error-message mb-6">
+    {{ __("error", error) }}
+  </p>
 
-    <p v-if="lastRun && lastRun.status === 'completed'" class="mb-6">
-      Website voor het laatst op
-      {{ formatDate(lastRun.updated_at) }} gepubliceerd.
-      <span v-if="lastRun.conclusion === 'failure'">
-        Helaas is dit mis gegaan, neem contact op met GRRR.</span
-      >
-    </p>
+  <p v-if="lastRun && lastRun.status === 'completed'" class="mb-6">
+    {{ __("completed_message", { last_run: formatDate(lastRun.updated_at) }) }}
+    <span v-if="lastRun.conclusion === 'failure'">
+      {{ __("error_short") }}</span
+    >
+  </p>
 
-    <p v-if="lastRun && lastRun.status !== 'completed'">
-      Website publicatie gestart op {{ formatDate(lastRun.created_at) }}, een
-      paar minuten geduld.
-    </p>
-  </div>
+  <p v-if="lastRun && lastRun.status !== 'completed'">
+    {{ __("running_message", { last_run: formatDate(lastRun.created_at) }) }}
+  </p>
 </template>
 
 <script>
@@ -68,7 +62,6 @@ export default {
       Nova.request()
         .get("/nova-vendor/publish/last-publish-run")
         .then((lastRun) => {
-          console.log(lastRun.data);
           this.lastRun = lastRun.data;
           this.publishing = lastRun.data.status !== "completed";
           this.error = "";
@@ -83,7 +76,7 @@ export default {
       }, 10000);
     },
     formatDate(date) {
-      return new Intl.DateTimeFormat("nl-NL", {
+      return new Intl.DateTimeFormat(Nova.config("locale"), {
         dateStyle: "full",
         timeStyle: "long",
       }).format(new Date(date));

@@ -1,0 +1,11 @@
+{
+  "button_text": "Publiceer website",
+  "completed_message": "Website voor het laatst op :last_run gepubliceerd.",
+  "explanation": "Publiceer de website om wijzigingen publiek te maken.",
+  "error": "Er is iets mis gegaan, neem contact op met GRRR. De foutmelding is: \":error\"",
+  "error_short": "Helaas is dit mis gegaan, neem contact op met GRRR.",
+  "heading": "Publiceer website",
+  "publish": "Publiceren",
+  "running_message": "Website publicatie gestart op :last_run, een paar minuten geduld.",
+  "title": "Publiceer een nieuwe website"
+}

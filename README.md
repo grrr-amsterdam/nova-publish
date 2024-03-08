@@ -24,8 +24,9 @@
 
 [Return To Top](#nova-publish)
 
-- PHP 7.4
-- GitHub Actions workflow
+- PHP 8.0, 8.1, 8.2
+- Laravel 8, 9, 10
+- Nova 4
 
 ## Installation
 
@@ -66,6 +67,18 @@ php artisan vendor:publish --provider="Publish\ToolServiceProvider"
 ```
 
 Configure GitHub credentials, set the path to the workflow file and configure an application version.
+
+=======
+
+## Local development
+
+Run `npm run dev` to watch for changes in the `resources/js` directory.
+
+Use the local checkout in a project that uses this plugin. [The Composer documentation explains how to do this.](https://getcomposer.org/doc/05-repositories.md#path)
+
+## i18n
+
+To add a language or change an existing translation, please read the [Laravel documentation about overriding package language files](https://laravel.com/docs/10.x/localization#overriding-package-language-files).
 
 ## GitHub API credentials
 
