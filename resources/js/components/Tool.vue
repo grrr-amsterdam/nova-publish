@@ -1,31 +1,40 @@
 <template>
   <div>
-    <Head title="Publiceer een nieuwe website" />
-    <heading class="mb-6">Publiceren</heading>
+    <Head :title="__('Publish a new site')" />
+    <heading class="mb-6">{{ __("Publish") }}</heading>
 
-    <p class="mb-6">Publiceer de website om wijzigingen publiek te maken.</p>
+    <p class="mb-6">
+      {{ __("Publish the site to make your changes visible to the public") }}
+    </p>
 
     <default-button @click="publish" :disabled="!!publishing" class="mb-6">
-      Publiceer website
+      {{ __("Publish a new site") }}
     </default-button>
 
     <p v-if="error" class="error text-error-message mb-6">
-      Er is iets mis gegaan, neem contact op met GRRR. De foutmelding is: "{{
-        error
-      }}"
+      {{
+        __("Something went wrong. Please contact Norday. This is the error:")
+      }}
+      "{{ error }}"
     </p>
 
     <p v-if="lastRun && lastRun.status === 'completed'" class="mb-6">
-      Website voor het laatst op
-      {{ formatDate(lastRun.updated_at) }} gepubliceerd.
+      {{
+        __("Website published last at :date", {
+          date: formatDate(lastRun.updated_at),
+        })
+      }}
       <span v-if="lastRun.conclusion === 'failure'">
-        Helaas is dit mis gegaan, neem contact op met GRRR.</span
-      >
+        {{ __("Unfortunately this went wrong. Please contact Norday.") }}
+      </span>
     </p>
 
     <p v-if="lastRun && lastRun.status !== 'completed'">
-      Website publicatie gestart op {{ formatDate(lastRun.created_at) }}, een
-      paar minuten geduld.
+      {{
+        __("Started your publication at :date, please wait a few minutes.", {
+          date: formatDate(lastRun.created_at),
+        })
+      }}
     </p>
   </div>
 </template>
@@ -49,6 +58,7 @@ export default {
       error: "",
       publishing: false,
       lastRun: undefined,
+      currentLocale: Nova.config("currentLocale"),
     };
   },
   methods: {
@@ -83,7 +93,7 @@ export default {
       }, 10000);
     },
     formatDate(date) {
-      return new Intl.DateTimeFormat("nl-NL", {
+      return new Intl.DateTimeFormat(Nova.config("currentLocale"), {
         dateStyle: "full",
         timeStyle: "long",
       }).format(new Date(date));

@@ -4,6 +4,7 @@ namespace Publish;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Nova\Events\ServingNova;
 use Laravel\Nova\Http\Middleware\Authenticate;
 use Laravel\Nova\Nova;
 use Publish\Http\Middleware\Authorize;
@@ -18,6 +19,7 @@ class ToolServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadViewsFrom(__DIR__ . "/../resources/views", "publish");
+        $this->loadJsonTranslationsFrom(__DIR__ . "/../resources/lang");
 
         $this->app->booted(function () {
             $this->routes();
@@ -26,6 +28,18 @@ class ToolServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . "/../config/publish.php" => config_path("publish.php"),
         ]);
+
+        Nova::serving(function (ServingNova $event) {
+            $currentLocale = app()->getLocale();
+            // Use the current locale to load the appropriate translations
+            Nova::translations(
+                __DIR__ . "/../resources/lang/{$currentLocale}.json"
+            );
+
+            Nova::provideToScript([
+                "currentLocale" => $currentLocale,
+            ]);
+        });
     }
 
     /**
