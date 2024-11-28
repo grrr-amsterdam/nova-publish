@@ -22,7 +22,7 @@ class Publish extends Tool
 
     public function menu(Request $request)
     {
-        return MenuSection::make("Publish")
+        return MenuSection::make(__("Publish"))
             ->path("/publish")
             ->icon("cloud-upload");
     }
