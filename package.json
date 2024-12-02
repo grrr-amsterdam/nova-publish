@@ -10,6 +10,9 @@
     "production": "mix --production",
     "nova:install": "yarn --cwd ./vendor/laravel/nova --frozen-lockfile"
   },
+  "engines": {
+    "node": "22"
+  },
   "devDependencies": {
     "@vue/compiler-sfc": "^3.2.22",
     "laravel-mix": "^6.0.41",
