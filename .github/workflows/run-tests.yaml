@@ -2,25 +2,45 @@ name: Run tests
 
 on:
   push:
-  pull_request:
 
 jobs:
   php-tests:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: true
       matrix:
         os: [ubuntu-latest]
-        php: [8.0]
-        laravel: [8.*]
+        laravel: [8.*, 9.*, 10.*, 11.*]
+        php: [8.0, 8.1, 8.2, 8.3]
         dependency-version: [prefer-stable]
         include:
           - laravel: 8.*
             testbench: 6.*
-    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
+            phpunit: 9.*
+          - laravel: 9.*
+            testbench: 7.*
+            phpunit: 9.*
+          - laravel: 10.*
+            testbench: 8.*
+            phpunit: 9.*
+          - laravel: 11.*
+            testbench: 9.*
+            phpunit: 10.*
+        exclude:
+          - laravel: 8.*
+            php: 8.2
+          - laravel: 8.*
+            php: 8.3
+          - laravel: 10.*
+            php: 8.0
+          - laravel: 11.*
+            php: 8.0
+          - laravel: 11.*
+            php: 8.1
+    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -28,9 +48,9 @@ jobs:
 
       - name: Get Composer Cache Directory
         id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -44,7 +64,7 @@ jobs:
       - name: Install PHP dependencies
         run: |
           composer config --ansi -- "http-basic.nova.laravel.com" ${{ secrets.NOVA_USERNAME }} ${{ secrets.NOVA_PASSWORD }}
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
       - name: Run PHP tests
