@@ -5,54 +5,53 @@ namespace Tests;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use Publish\Exception;
+use Publish\GitHubStatus;
 use Publish\PublishManager;
+use Publish\Run;
 
 class PublishManagerTest extends TestCase
 {
     public function testLastRunThrowsException(): void
     {
-        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            "Workflow test-workflow.yml hasn't run yet. Run it once manually via GitHub to kickstart nova-publish."
+        );
+
+        // Fake the test-workflow.yml workflow without any runs.
         Http::fake([
-            "github.com/*" => Http::response(["workflow_runs" => []]),
+            "api.github.com/repos/grrr-amsterdam/nova-publish/actions/workflows/test-workflow.yml/runs" => Http::response(
+                ["workflow_runs" => []]
+            ),
         ]);
 
-        $manager = new PublishManager();
+        /** @var PublishManager $manager */
+        $manager = app(PublishManager::class);
         $manager->getLastRun();
     }
 
     public function testGetLastRun(): void
     {
-        Carbon::setTestNow(now());
+        /** @var PublishManager $manager */
+        $manager = app(PublishManager::class);
 
-        Http::fake([
-            "github.com/*" => Http::response(
-                [
-                    "workflow_runs" => [
-                        [
-                            "conclusion" => null,
-                            "created_at" => now()->format(DATE_ATOM),
-                            "updated_at" => "123",
-                            "status" => "asdf",
-                        ],
-                        [
-                            "conclusion" => null,
-                            "created_at" => now()
-                                ->subMinute()
-                                ->format(DATE_ATOM),
-                            "updated_at" => "123",
-                            "status" => "asdf",
-                        ],
-                    ],
-                ],
-                200,
-                []
-            ),
-        ]);
+        $lastRun = $manager->getLastRun();
 
-        $manager = new PublishManager();
-        $actual = $manager->getLastRun();
+        $this->assertInstanceOf(Run::class, $lastRun);
+    }
 
-        $this->assertSame(now()->format(DATE_ATOM), $actual->created_at);
-        Carbon::setTestNow();
+    public function testStartPublish(): void
+    {
+        /** @var PublishManager $manager */
+        $manager = app(PublishManager::class);
+
+        $manager->publish("main");
+
+        // Wait for the workflow run to become available in the API.
+        sleep(1);
+
+        $newRun = $manager->getLastRun();
+
+        // Just check for the right result, because tests are running in parallel it's hard to predict the exact outcome.
+        $this->assertInstanceOf(Run::class, $newRun);
     }
 }

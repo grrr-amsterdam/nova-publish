@@ -2,35 +2,31 @@
 
 namespace Publish;
 
+use DateTime;
+use Illuminate\Cache\Repository;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Http;
 use Publish\Events\PublicationWasStarted;
 
 class PublishManager
 {
-    private $github;
-
-    public function __construct()
-    {
-        $this->github = Http::withBasicAuth(
-            config("publish.github_username"),
-            config("publish.github_personal_access_token")
-        )->withHeaders(["Accept" => "application/vnd.github.v3+json"]);
+    public function __construct(
+        private GitHubApi $gitHubApi,
+        private Repository $cache,
+        private string $workflow
+    ) {
     }
 
     public function getRuns(): Collection
     {
-        $workflowPath = config("publish.workflow_path");
-
-        $runs = $this->github
-            ->get("$workflowPath/runs")
-            ->throw()
-            ->json("workflow_runs");
+        $runs = $this->gitHubApi->getRuns(
+            $this->getGitHubAccessToken(),
+            $this->workflow
+        );
 
         return collect($runs)
             ->sortByDesc("created_at")
-            ->whenEmpty(function () use ($workflowPath) {
-                throw Exception::noFirstRun($workflowPath);
+            ->whenEmpty(function () {
+                throw Exception::noFirstRun($this->workflow);
             })
             ->map(fn($response) => Run::createFromGithubResponse($response));
     }
@@ -38,7 +34,7 @@ class PublishManager
     public function getLastRun(): Run
     {
         return $this->getRuns()
-            ->where("conclusion", "!=", Run::CONCLUSION_CANCELLED)
+            ->where("conclusion", "!=", GitHubConclusion::cancelled->value)
             ->first();
     }
 
@@ -47,19 +43,44 @@ class PublishManager
         /** @var Run $run */
         $run = $this->getRuns()->first();
 
-        if ($run->status !== Run::STATUS_COMPLETED) {
+        if ($run->status !== GitHubStatus::completed) {
             return;
         }
 
         event(new PublicationWasStarted($ref));
 
-        $this->github
-            ->post(config("publish.workflow_path") . "/dispatches", [
-                "ref" => $ref,
-                "inputs" =>
-                    config("publish.workflow_inputs") ?: new \stdClass(),
-            ])
-            ->throw()
-            ->json();
+        $this->gitHubApi->dispatchWorkflow(
+            $this->getGitHubAccessToken(),
+            $this->workflow,
+            $ref
+        );
+    }
+
+    protected function getGitHubAccessToken(): string
+    {
+        $cacheKey = "nova-publish-github-access-token";
+
+        /** @var string|null $accessToken */
+        $accessToken = $this->cache->get($cacheKey);
+
+        if ($accessToken) {
+            return $accessToken;
+        }
+
+        $installation = $this->gitHubApi->getInstallation();
+
+        /** @var array{token: string, expires_at: int} $accessToken */
+        $accessToken = $this->gitHubApi->getAccessToken(
+            $installation["access_tokens_url"]
+        );
+
+        $this->cache->set(
+            $cacheKey,
+            $accessToken["token"],
+            (new DateTime($accessToken["expires_at"]))->getTimestamp() -
+                (new DateTime())->getTimestamp()
+        );
+
+        return $accessToken["token"];
     }
 }

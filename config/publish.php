@@ -3,7 +3,7 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | GitHub credentials
+    | GitHub App credentials
     |--------------------------------------------------------------------------
     |
     | Publish uses these credentials to connect to the GitHub API. The token
@@ -11,10 +11,18 @@ return [
     |
     */
 
-    "github_username" => env("PUBLISH_GITHUB_USERNAME"),
-    "github_personal_access_token" => env(
-        "PUBLISH_GITHUB_PERSONAL_ACCESS_TOKEN"
-    ),
+    "application_id" => env("NOVA_PUBLISH_APPLICATION_ID"),
+    "private_key" => env("NOVA_PUBLISH_PRIVATE_KEY"),
+
+    /*
+    |--------------------------------------------------------------------------
+    | GitHub repository information
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    "owner" => env("NOVA_PUBLISH_OWNER", "norday-agency"),
+    "repository" => env("NOVA_PUBLISH_REPOSITORY"),
 
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +36,7 @@ return [
     | https://api.github.com/repos/grrr-amsterdam/nova-publish/actions/workflows/my-workflow_dispatch-workflow.yml
     |
     */
-    "workflow_path" => "https://api.github.com/path/to/workflow.yml",
+    "workflow" => env("NOVA_PUBLISH_WORKFLOW"),
 
     /*
     |--------------------------------------------------------------------------
