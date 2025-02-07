@@ -66,11 +66,12 @@ export default {
       this.publishing = true;
       Nova.request()
         .post("/nova-vendor/publish/publish")
-        .then((response) => {
+        .then(() => {
           this.error = "";
+          this.updateStatus();
         })
         .catch((error) => {
-          this.error = error.message;
+          this.error = error.response.data.message || error.message;
           this.publishing = false;
         });
     },
@@ -78,13 +79,12 @@ export default {
       Nova.request()
         .get("/nova-vendor/publish/last-publish-run")
         .then((lastRun) => {
-          console.log(lastRun.data);
           this.lastRun = lastRun.data;
           this.publishing = lastRun.data.status !== "completed";
           this.error = "";
         })
         .catch((error) => {
-          this.error = error.message;
+          this.error = error?.response.data.message || error.message;
         });
     },
     startStatusRefresh() {

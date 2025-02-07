@@ -24,8 +24,7 @@
 
 [Return To Top](#nova-publish)
 
-- PHP 8.0, 8.1, 8.2
-- Laravel 8, 9, 10
+- PHP 8.2, 8.3, 8.4
 - Nova 4
 
 ## Installation
@@ -66,34 +65,44 @@ Publish configuration
 php artisan vendor:publish --provider="Publish\ToolServiceProvider"
 ```
 
-Configure GitHub credentials, set the path to the workflow file and configure an application version.
+Configure [GitHub credentials](#github-credentials), set the name of the workflow file and configure an application version.
 
 =======
 
 ## Local development
 
-Run `npm run dev` to watch for changes in the `resources/js` directory.
+Run `yarn run dev` to watch for changes in the `resources/js` directory.
 
 Use the local checkout in a project that uses this plugin. [The Composer documentation explains how to do this.](https://getcomposer.org/doc/05-repositories.md#path)
+
+To run the tests you need a Nova License and a GitHub App with access to your repository. It will use the workflow `test-workflow.yml` to do integration tests.
+
+Create `/.env` file with the following content:
+
+```dotenv
+NOVA_PUBLISH_PRIVATE_KEY="your GitHub App private key"
+NOVA_PUBLISH_APPLICATION_ID="your GitHub App ID"
+NOVA_PUBLISH_OWNER="your GitHub owner"
+NOVA_PUBLISH_REPOSITORY="your GitHub repository"
+```
 
 ## i18n
 
 To add a language or change an existing translation, please read the [Laravel documentation about overriding package language files](https://laravel.com/docs/10.x/localization#overriding-package-language-files).
 
-## GitHub API credentials
+## GitHub credentials
 
-Personal Access Tokens (PATs) are currently the only way to access the GitHub API. The token is created by a GitHub user. So when this user is removed from the GitHub organization the token must be recreated by another user. Not ideal, so there is room for improvement.
+You need a GitHub App to use this tool. The application must have access to the repository where the workflow is located.
 
-Create a Personal Access Token: https://github.com/settings/tokens
+[About creating GitHub Apps](https://docs.github.com/en/apps/creating-github-apps/about-creating-github-apps/about-creating-github-apps).
 
-- Note: the name of the project
-- Expiration: No expiration (or you have to replace the token every time it expires)
-- Scopes: "repo" and "workflow"
-
-Add the created token as environment variable `PUBLISH_GITHUB_PERSONAL_ACCESS_TOKEN`.
-
-You GitHub username must be stored in `PUBLISH_GITHUB_USERNAME`.
+Use the application ID and private key in `config/publish.php`.
 
 ## Contribute
 
 You need a Nova license to run the tests.
+
+## Release new version
+
+- Run `yarn run prod` to build the assets, and commit the changes
+- Add the new version to `CHANGELOG.md`

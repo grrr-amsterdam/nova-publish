@@ -7,16 +7,15 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Events\ServingNova;
 use Laravel\Nova\Http\Middleware\Authenticate;
 use Laravel\Nova\Nova;
+use Publish\Http\Controllers\PublishController;
 use Publish\Http\Middleware\Authorize;
 
 class ToolServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->loadJsonTranslationsFrom(__DIR__ . "/../resources/lang");
 
@@ -43,10 +42,8 @@ class ToolServiceProvider extends ServiceProvider
 
     /**
      * Register the tool's routes.
-     *
-     * @return void
      */
-    protected function routes()
+    protected function routes(): void
     {
         if ($this->app->routesAreCached()) {
             return;
@@ -64,11 +61,32 @@ class ToolServiceProvider extends ServiceProvider
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
-        $this->app->bind(PublishManager::class, PublishManager::class);
+        $this->app
+            ->when(GitHubApi::class)
+            ->needs('$owner')
+            ->giveConfig("publish.owner");
+
+        $this->app
+            ->when(GitHubApi::class)
+            ->needs('$repository')
+            ->giveConfig("publish.repository");
+
+        $this->app
+            ->when(JWT::class)
+            ->needs('$applicationId')
+            ->giveConfig("publish.application_id");
+
+        $this->app
+            ->when(JWT::class)
+            ->needs('$privateKey')
+            ->giveConfig("publish.private_key");
+
+        $this->app
+            ->when(PublishManager::class)
+            ->needs('$workflow')
+            ->giveConfig("publish.workflow");
     }
 }

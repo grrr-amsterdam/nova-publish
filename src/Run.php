@@ -6,29 +6,22 @@ use Illuminate\Contracts\Support\Arrayable;
 
 class Run implements Arrayable
 {
-    const CONCLUSION_SUCCESS = "success";
-    const CONCLUSION_FAILURE = "failure";
-    const CONCLUSION_CANCELLED = "cancelled";
-    const CONCLUSION_SKIPPED = "skipped";
-
-    const STATUS_COMPLETED = "completed";
-    const STATUS_QUEUED = "queued";
-    const STATUS_IN_PROGRESS = "in_progress";
-
-    public ?string $conclusion;
+    public ?GitHubConclusion $conclusion;
 
     public string $created_at;
 
-    public string $status;
+    public GitHubStatus $status;
 
     public string $updated_at;
 
     public static function createFromGithubResponse(array $data): Run
     {
         $run = new self();
-        $run->conclusion = $data["conclusion"];
+        $run->conclusion = $data["conclusion"]
+            ? GitHubConclusion::from($data["conclusion"])
+            : null;
         $run->created_at = $data["created_at"];
-        $run->status = $data["status"];
+        $run->status = GitHubStatus::from($data["status"]);
         $run->updated_at = $data["updated_at"];
         return $run;
     }
@@ -36,9 +29,9 @@ class Run implements Arrayable
     public function toArray()
     {
         return [
-            "conclusion" => $this->conclusion,
+            "conclusion" => $this->conclusion?->value,
             "created_at" => $this->created_at,
-            "status" => $this->status,
+            "status" => $this->status->value,
             "updated_at" => $this->updated_at,
         ];
     }
