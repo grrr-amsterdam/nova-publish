@@ -1,0 +1,12 @@
+name: Workflow for the integration test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  a-job:
+    name: A job
+    runs-on: ubuntu-latest
+    steps:
+      - name: A step
+        run: echo "I'm here just for the sake of it"
