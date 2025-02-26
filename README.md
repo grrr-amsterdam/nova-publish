@@ -84,6 +84,7 @@ NOVA_PUBLISH_PRIVATE_KEY="your GitHub App private key"
 NOVA_PUBLISH_APPLICATION_ID="your GitHub App ID"
 NOVA_PUBLISH_OWNER="your GitHub owner"
 NOVA_PUBLISH_REPOSITORY="your GitHub repository"
+NOVA_PUBLISH_WORKFLOW="workflow-file.yml"
 ```
 
 ## i18n

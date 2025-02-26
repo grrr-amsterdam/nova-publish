@@ -26,31 +26,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | GitHub workflow path
+    | GitHub workflow
     |--------------------------------------------------------------------------
     |
-    | The endpoint of the workflow used by the GitHub API calls. For example:
-    | https://api.github.com/repos/vendor/project/actions/workflows/some-workflow.yml
-    |
-    | Replace "vendor", "project" and "some-workflow":
-    | https://api.github.com/repos/grrr-amsterdam/nova-publish/actions/workflows/my-workflow_dispatch-workflow.yml
+    | The name of the workflow file. For example: some-workflow.yml
     |
     */
     "workflow" => env("NOVA_PUBLISH_WORKFLOW"),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Workflow inputs
-    |--------------------------------------------------------------------------
-    |
-    | Inputs for the workflow. The inputs must be defined in the workflow file:
-    | https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#onworkflow_dispatchinputs
-    |
-    | An example:
-    | ['environment' => env('APP_ENV')]
-    |
-    */
-    "workflow_inputs" => [],
 
     /*
     |--------------------------------------------------------------------------
