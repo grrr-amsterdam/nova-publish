@@ -8,4 +8,5 @@ enum GitHubConclusion: string
     case failure = "failure";
     case cancelled = "cancelled";
     case skipped = "skipped";
+    case startup_failure = "startup_failure";
 }
